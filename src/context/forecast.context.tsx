@@ -16,11 +16,10 @@ export interface IForecastContext {
 }
 
 export interface IForecastState {
-  forecast?: IForecast[];
+  forecasts?: IForecast[];
 }
 
 function forecastReducer(state: IForecastState, action: IForecastAction) {
-  console.log({ state, action });
   switch (action.type) {
     case 'set': {
       return { ...state, forecasts: action.value };

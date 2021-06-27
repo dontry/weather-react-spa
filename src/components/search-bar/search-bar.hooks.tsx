@@ -20,6 +20,7 @@ import { debounce } from 'lodash-es';
 const SEARCHBAR_LABEL = 'Enter a location';
 export const useHandleInputField = (
   loading: boolean,
+  options: ILocation[],
   setOptions: Dispatch<SetStateAction<ILocation[]>>
 ) => {
   const forecastContext = useContext(ForecastContext);
@@ -52,7 +53,7 @@ export const useHandleInputField = (
           .catch((error) => {
             alert(`Network error: ${error.message}`);
           });
-      }, 200),
+      }, 1000),
     []
   );
 
@@ -77,12 +78,21 @@ export const useHandleInputField = (
 
   const handleInputChange = useCallback(
     (event, newInputValue) => {
+      const isOptionValue = options.some(
+        (option: ILocation) => option.display_name === newInputValue
+      );
+      if (isOptionValue) {
+        return undefined;
+      }
+      console.log({ options, newInputValue });
+
       setInputValue(newInputValue);
       if (newInputValue === '') {
         forecastContext?.dispatch({ type: 'clear' });
+        setOptions([]);
       }
     },
-    [forecastContext]
+    [forecastContext, options, setOptions]
   );
 
   return { renderInput, handleInputChange };
@@ -93,11 +103,6 @@ export const useHandleOptions = () => {
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<ILocation[]>([]);
   const loading = useMemo(() => open && options.length === 0, [open, options]);
-  useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
 
   const handleOptionSelect = useCallback(
     (event, value) => {

@@ -5,15 +5,16 @@ import { useHandleOptions, useHandleInputField } from './search-bar.hooks';
 
 export const SearchBar = () => {
   const {
-    options,
-    open,
     loading,
+    open,
     setOpen,
+    options,
     setOptions,
     handleOptionSelect,
   } = useHandleOptions();
   const { renderInput, handleInputChange } = useHandleInputField(
     loading,
+    options,
     setOptions
   );
 
