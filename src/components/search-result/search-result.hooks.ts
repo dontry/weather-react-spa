@@ -11,7 +11,7 @@ function transformWeatherInfo(data: IForecast): IWeatherInfo {
   const day = WEEKDAYS[datetime.getDay()];
   const minTemp = data.temp.min;
   const maxTemp = data.temp.max;
-  const weather = data.weather.main;
+  const weather = data.weather[0].main;
   return {
     date,
     day,
@@ -23,7 +23,9 @@ function transformWeatherInfo(data: IForecast): IWeatherInfo {
 
 export const useHandleResultUpdate = () => {
   const forecastContext = useContext(ForecastContext);
-  const forecasts = forecastContext?.state.forecasts || [];
+  const forecasts = useMemo(() => forecastContext?.state.forecasts || [], [
+    forecastContext,
+  ]);
   const result = useMemo(() => forecasts.map(transformWeatherInfo), [
     forecasts,
   ]);
