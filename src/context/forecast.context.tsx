@@ -16,7 +16,7 @@ export interface IForecastContext {
 }
 
 export interface IForecastState {
-  forecast?: IForecast[];
+  forecasts?: IForecast[];
 }
 
 function forecastReducer(state: IForecastState, action: IForecastAction) {
