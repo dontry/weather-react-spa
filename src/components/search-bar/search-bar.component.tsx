@@ -19,7 +19,7 @@ export const SearchBar = () => {
 
   return (
     <Autocomplete
-      style={{ width: 500 }}
+      style={{ width: '100%' }}
       open={open}
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}

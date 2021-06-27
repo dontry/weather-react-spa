@@ -6,6 +6,7 @@ import { IWeatherInfo } from '../../common/interfaces/weather-info.interface';
 const useStyles = makeStyles({
   root: {
     paddingLeft: 0,
+    paddingRight: 0,
     width: '100%',
   },
   card: {

@@ -47,7 +47,11 @@ export const useHandleInputField = (
   const fetchLocations = useMemo(
     () =>
       debounce((inputValue: string, callback: any) => {
-        LocationService.fetchLocations(inputValue).then(callback);
+        LocationService.fetchLocations(inputValue)
+          .then(callback)
+          .catch((error) => {
+            alert(`Network error: ${error.message}`);
+          });
       }, 200),
     []
   );
@@ -111,7 +115,9 @@ export const useHandleOptions = () => {
               value: forecasts,
             });
           })
-          .catch(() => {});
+          .catch((error) => {
+            alert(`Network error: ${error.message}`);
+          });
       }
     },
     [forecastContext]
