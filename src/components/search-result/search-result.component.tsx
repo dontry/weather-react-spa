@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles, Typography, Container, List } from '@material-ui/core';
 import { ResultItem } from './result-item.component';
 import { useHandleResultUpdate } from './search-result.hooks';
+import { IWeatherInfo } from '../../common/interfaces/weather-info.interface';
 
 const useStyles = makeStyles({
   container: {
@@ -19,7 +20,7 @@ export const SearchResult = () => {
         Forcast for next 7 days:
       </Typography>
       <List>
-        {result.map((item) => (
+        {result.map((item: IWeatherInfo) => (
           <ResultItem {...item} />
         ))}
       </List>

@@ -33,7 +33,7 @@ export const ResultItem = memo(
   ({ date, day, minTemp, maxTemp, weather }: IWeatherInfo) => {
     const classes = useStyles();
     return (
-      <ListItem className={classes.root}>
+      <ListItem key={date} className={classes.root}>
         <Card className={classes.card}>
           <div className={classes.container}>
             <div className={classes.section}>

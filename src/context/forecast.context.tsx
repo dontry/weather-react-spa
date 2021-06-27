@@ -20,7 +20,6 @@ export interface IForecastState {
 }
 
 function forecastReducer(state: IForecastState, action: IForecastAction) {
-  console.log({ state, action });
   switch (action.type) {
     case 'set': {
       return { ...state, forecasts: action.value };
