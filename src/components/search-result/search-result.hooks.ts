@@ -23,7 +23,7 @@ function transformWeatherInfo(data: IForecast): IWeatherInfo {
 
 export const useHandleResultUpdate = () => {
   const forecastContext = useContext(ForecastContext);
-  const forecasts = forecastContext?.state.forecasts;
+  const forecasts = forecastContext?.state.forecasts || [];
   const result = useMemo(() => forecasts.map(transformWeatherInfo), [
     forecasts,
   ]);

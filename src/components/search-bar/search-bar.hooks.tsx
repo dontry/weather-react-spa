@@ -17,7 +17,7 @@ import * as WeatherService from '../../services/weather.service';
 import { AxiosResponse } from 'axios';
 import { debounce } from 'lodash-es';
 
-const SEARCHBAR_LABEL = 'Enter a location';
+const SEARCH_BAR_LABEL = 'Enter a location';
 export const useHandleInputField = (
   loading: boolean,
   setOptions: Dispatch<SetStateAction<ILocation[]>>
@@ -28,7 +28,7 @@ export const useHandleInputField = (
     (params) => (
       <TextField
         {...params}
-        label={SEARCHBAR_LABEL}
+        label={SEARCH_BAR_LABEL}
         variant="outlined"
         InputProps={{
           ...params.InputProps,

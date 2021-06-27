@@ -16,7 +16,7 @@ export interface IForecastContext {
 }
 
 export interface IForecastState {
-  forecasts: IForecast[];
+  forecasts?: IForecast[];
 }
 
 function forecastReducer(state: IForecastState, action: IForecastAction) {
@@ -34,7 +34,8 @@ function forecastReducer(state: IForecastState, action: IForecastAction) {
   }
 }
 
-export function ForecastProvider({ children }) {
+export function ForecastProvider(props: any) {
+  const { children } = props;
   const [state, dispatch] = useReducer(forecastReducer, {
     forecasts: [],
   });
