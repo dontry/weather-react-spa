@@ -18,7 +18,7 @@ import { AxiosResponse } from 'axios';
 import { debounce } from 'lodash-es';
 
 const SEARCHBAR_LABEL = 'Enter a location';
-export const useHandleFieldInput = (
+export const useHandleInputField = (
   loading: boolean,
   setOptions: Dispatch<SetStateAction<ILocation[]>>
 ) => {
@@ -81,13 +81,14 @@ export const useHandleFieldInput = (
     [forecastContext]
   );
 
-  return { inputValue, renderInput, setInputValue, handleInputChange };
+  return { renderInput, handleInputChange };
 };
 
 export const useHandleOptions = () => {
   const forecastContext = useContext(ForecastContext);
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<ILocation[]>([]);
+  const loading = useMemo(() => open && options.length === 0, [open, options]);
   useEffect(() => {
     if (!open) {
       setOptions([]);
@@ -116,5 +117,5 @@ export const useHandleOptions = () => {
     [forecastContext]
   );
 
-  return { options, setOpen, setOptions, handleOptionSelect };
+  return { options, open, loading, setOpen, setOptions, handleOptionSelect };
 };
