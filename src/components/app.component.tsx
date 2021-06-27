@@ -1,13 +1,15 @@
 import '../styles.css';
 import { SearchBar } from './search-bar/search-bar.component';
-import { GeoQueryProvider } from '../context/geo-query.context';
+import { SearchResult } from './search-result/search-result.component';
+import { ForecastProvider } from '../context/forecast.context';
 
 export function App() {
   return (
-    <GeoQueryProvider>
+    <ForecastProvider>
       <div className="App">
         <SearchBar />
+        <SearchResult />
       </div>
-    </GeoQueryProvider>
+    </ForecastProvider>
   );
 }
