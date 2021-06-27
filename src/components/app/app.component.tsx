@@ -1,4 +1,3 @@
-import './styles.css';
 import { makeStyles, Typography, Container } from '@material-ui/core';
 import { SearchBar } from '../search-bar/search-bar.component';
 import { SearchResult } from '../search-result/search-result.component';
