@@ -9,7 +9,7 @@ export interface IForecast {
   moonset: number;
   moon_phase: number;
   temp: ITemperature;
-  weather: IWeather;
+  weather: IWeather[];
   clouds: number;
   pop: number;
   rain: number;
