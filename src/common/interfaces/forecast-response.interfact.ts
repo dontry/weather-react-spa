@@ -4,5 +4,5 @@ export interface IForecastResponse {
   lat: number;
   lon: number;
   timezone: string;
-  daily: IForecast;
+  daily: IForecast[];
 }

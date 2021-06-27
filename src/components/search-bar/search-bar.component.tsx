@@ -1,18 +1,28 @@
-import React, { useCallback } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useContext,
+} from 'react';
 import { TextField, CircularProgress } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
-import { fetchLocations } from '../../services/location.service';
+import * as LocationService from '../../services/location.service';
+import * as WeatherService from '../../services/weather.service';
 import { ILocation } from '../../common/interfaces/location.interface';
 import { debounce } from 'lodash-es';
 import { AxiosResponse } from 'axios';
-import { GeoQueryContext } from '../../context/geo-query.context';
+import { IGeolocation } from '../../common/interfaces/geolocation.interface';
+import { ForecastContext } from '../../context/forecast.context';
+import { IForecastResponse } from '../../common/interfaces/forecast-response.interfact';
 
 const SEARCHBAR_LABEL = 'Enter a location';
 
 export const SearchBar = () => {
-  const [open, setOpen] = React.useState(false);
-  const [options, setOptions] = React.useState<ILocation[]>([]);
-  const [inputValue, setInputValue] = React.useState('');
+  const forecastContext = useContext(ForecastContext);
+  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState<ILocation[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
   const loading = open && options.length === 0;
 
   const renderInput = useCallback(
@@ -35,22 +45,22 @@ export const SearchBar = () => {
     [loading]
   );
 
-  const fetch = React.useMemo(
+  const fetchLocations = useMemo(
     () =>
       debounce((inputValue: string, callback: any) => {
-        fetchLocations(inputValue).then(callback);
+        LocationService.fetchLocations(inputValue).then(callback);
       }, 200),
     []
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     let active = true;
 
     if (!loading || inputValue === '') {
       return undefined;
     }
 
-    fetch(inputValue, (response: AxiosResponse<any>) => {
+    fetchLocations(inputValue, (response: AxiosResponse<any>) => {
       const locations: ILocation[] = response.data;
       if (active) {
         setOptions(locations);
@@ -60,15 +70,45 @@ export const SearchBar = () => {
     return () => {
       active = false;
     };
-  }, [loading, fetch, inputValue]);
+  }, [loading, fetchLocations, inputValue]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!open) {
       setOptions([]);
     }
   }, [open]);
 
-  const geoQuery = React.useContext(GeoQueryContext);
+  const handleOptionSelect = useCallback(
+    (event, value) => {
+      if (value) {
+        const geoValue: IGeolocation = {
+          lat: value.lat,
+          lon: value.lon,
+        };
+        WeatherService.fetchWeatherForecast(geoValue)
+          .then((response) => {
+            const data: IForecastResponse = response.data;
+            const forecasts = data.daily.slice(1, data.daily.length);
+            forecastContext?.dispatch({
+              type: 'set',
+              value: forecasts,
+            });
+          })
+          .catch(() => {});
+      }
+    },
+    [forecastContext]
+  );
+
+  const handleInputChange = useCallback(
+    (event, newInputValue) => {
+      setInputValue(newInputValue);
+      if (newInputValue === '') {
+        forecastContext?.dispatch({ type: 'clear' });
+      }
+    },
+    [forecastContext]
+  );
 
   return (
     <Autocomplete
@@ -83,18 +123,8 @@ export const SearchBar = () => {
       options={options}
       loading={loading}
       renderInput={renderInput}
-      onChange={(event, newValue) => {
-        if (newValue) {
-          geoQuery!.dispatch({
-            type: 'set',
-            value: { lat: newValue!.lat, lon: newValue!.lon },
-          });
-        }
-        console.log({ value: newValue });
-      }}
-      onInputChange={(event, newInputValue) => {
-        setInputValue(newInputValue);
-      }}
+      onChange={handleOptionSelect}
+      onInputChange={handleInputChange}
     />
   );
 };
