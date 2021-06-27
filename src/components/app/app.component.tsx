@@ -1,14 +1,18 @@
 import './styles.css';
-import Container from '@material-ui/core/Container';
+import { makeStyles, Typography, Container } from '@material-ui/core';
 import { SearchBar } from '../search-bar/search-bar.component';
 import { SearchResult } from '../search-result/search-result.component';
 import { ForecastProvider } from '../../context/forecast.context';
-import { makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     fontFamily: 'sans-serif',
     textAlign: 'center',
+    marginTop: '2rem',
+    width: '680px',
   },
   header: {
     marginBottom: '1rem',
