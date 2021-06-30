@@ -1,4 +1,4 @@
-export const mockSearchResult = [
+export const mockWeatherForecast = [
   {
     date: '28/06/2021',
     day: 'Monday',

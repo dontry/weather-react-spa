@@ -11,7 +11,7 @@ import { TextField, CircularProgress } from '@material-ui/core';
 import { ILocation } from '../../common/interfaces/location.interface';
 import { ForecastContext } from '../../context/forecast.context';
 import { IGeolocation } from '../../common/interfaces/geolocation.interface';
-import { IForecastResponse } from '../../common/interfaces/forecast-response.interfact';
+import { IForecastResponse } from '../../common/interfaces/forecast-response.interface';
 import * as LocationService from '../../services/location.service';
 import * as WeatherService from '../../services/weather.service';
 import { AxiosResponse } from 'axios';
@@ -84,7 +84,6 @@ export const useHandleInputField = (
       if (isOptionValue) {
         return undefined;
       }
-      console.log({ options, newInputValue });
 
       setInputValue(newInputValue);
       if (newInputValue === '') {
