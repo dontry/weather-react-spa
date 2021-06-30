@@ -12,8 +12,12 @@ REACT_APP_WEATHER_API_KEY=<Your OpenWeatherMap.org API key>
 
 ### Run
 
-`yarn start`
+`npm start`
 
 ### Build
 
-`yarn build`
+`npm build`
+
+### Test
+
+`npm test`
