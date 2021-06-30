@@ -63,5 +63,4 @@ describe('search-bar hooks', () => {
 			expect(mockDispatch).toHaveBeenCalled();
 		});
 	});
-
 });
